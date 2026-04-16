@@ -12,14 +12,16 @@ function renderizar() {
   listaEl.innerHTML = tarefas.length === 0
     ? '<li class="list-group-item text-muted text-center">Nenhuma tarefa cadastrada.</li>'
     : tarefas.map(t => `
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li class="list-group-item d-flex justify-content-between align-items-center gap-2">
           <span style="${t.concluida ? 'text-decoration:line-through;color:#888' : ''}">
             ${t.descricao}
           </span>
-          <div>
-            <button class="btn btn-sm btn-outline-success me-1"
+          <div class="d-flex gap-1">
+            <button class="btn btn-sm btn-outline-secondary"
+              onclick="editar('${t.id}', '${t.descricao.replace(/'/g, "\\'")}')">Editar</button>
+            <button class="btn btn-sm btn-outline-success"
               onclick="alternar('${t.id}')">
-              ${t.concluida ? '↩ Reabrir' : '✔ Concluir'}
+              ${t.concluida ? '↩ Reabrir' : 'Concluir'}
             </button>
             <button class="btn btn-sm btn-outline-danger"
               onclick="remover('${t.id}')">Excluir</button>
@@ -38,6 +40,17 @@ form.addEventListener('submit', (e) => {
     alert(err.message);
   }
 });
+
+window.editar = (id, descricaoAtual) => {
+  const nova = prompt('Editar tarefa:', descricaoAtual);
+  if (nova === null) return;           // cancelou
+  if (!nova.trim()) {
+    alert('Descrição não pode ser vazia.');
+    return;
+  }
+  controller.atualizarTarefa(id, { descricao: nova.trim() });
+  renderizar();
+};
 
 window.alternar = (id) => {
   controller.alternarConclusao(id);
