@@ -21,7 +21,7 @@ function renderizar() {
               onclick="editar('${t.id}', '${t.descricao.replace(/'/g, "\\'")}')">Editar</button>
             <button class="btn btn-sm btn-outline-success"
               onclick="alternar('${t.id}')">
-              ${t.concluida ? '↩ Reabrir' : 'Concluir'}
+              ${t.concluida ? 'Reabrir' : 'Concluir'}
             </button>
             <button class="btn btn-sm btn-outline-danger"
               onclick="remover('${t.id}')">Excluir</button>
